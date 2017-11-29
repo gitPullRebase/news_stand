@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import defaultImage from '../public/assets/defaultImage';
 
 import FavoriteButton from './FavoriteButton';
+import Comment from './CommentButton';
 
 const NewsItem = ({ article, liked}) => (
   <div className="newsItem">
@@ -40,6 +41,8 @@ const NewsItem = ({ article, liked}) => (
         </div> :
         null
     }
+
+    <Comment />
 
     <br />
   </div>
