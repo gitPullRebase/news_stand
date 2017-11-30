@@ -10,7 +10,7 @@ const NewsList = props => (
       <div id="no-articles">No articles found. Please try another search</div> :
       props.newsArticles && uniq(props.newsArticles, i => i.url)
         .map(article => (
-          <NewsItem article={article} key={article.url} />
+          <NewsItem article={article} key={article.url} liked ={props.liked} />
         ))
     }
   </div>
