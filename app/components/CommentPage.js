@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import ReactModal from 'react-modal';
 
 class CommentPage extends React.Component {
   constructor(props) {
@@ -11,6 +10,23 @@ class CommentPage extends React.Component {
       comments: [],
       articleUrl: this.props.article.url,
       user: this.props.user,
+    };
+    this.backdropStyle = {
+      position: 'fixed',
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+      backgroundColor: 'rgba(0,0,0,0.3)',
+      padding: 50,
+    };
+    this.modalStyle = {
+      backgroundColor: '#fff',
+      borderRadius: 5,
+      maxWidth: 500,
+      minHeight: 300,
+      margin: '0 auto',
+      padding: 30,
     };
   }
 
@@ -25,7 +41,7 @@ class CommentPage extends React.Component {
     });
   }
 
-  //saves all the comments to database
+  // saves all the comments to database
   onSubmit() {
     axios({
       method: 'post',
@@ -38,6 +54,11 @@ class CommentPage extends React.Component {
     }).then(() => {});
   }
 
+  onEnterKeypress(event) {
+    event.preventDefault();
+    this.onSubmit();
+  }
+
   commentChange(event) {
     this.setState({ commentInput: event.target.value });
   }
@@ -48,23 +69,28 @@ class CommentPage extends React.Component {
     }
 
     return (
-      <div className="commentPage">
-        <div className="closeBtn">
-          <input onClick={this.props.onClose} type="button" value="close" />
-        </div>
-        <div className="commentList">
-          {this.state.comments.map(comment => (
-            <div className="comment">
-              <div className="comment-author">{this.state.user}</div>
-              <div className="comment-text">{comment.comment}</div>
+      <div className="backdrop" style={this.backdropStyle}>
+        <div className="commentPage" style={this.modalStyle}>
+          <h2>Comments</h2>
+          <div className="closeBtn">
+            <input onClick={this.props.onClose} type="button" value="close" />
+          </div>
+          <div className="commentList">
+            {this.state.comments.map(comment => (
+              <div className="comment">
+                <div className="comment-author">{this.state.user}</div>
+                <div className="comment-text">{comment.comment}</div>
+              </div>
+            ))}
+          </div>
+          <form onSubmit={this.handleEnterKeypress}>
+            <div className="enterComment">
+              <input onChange={this.commentChange} type="text" />
             </div>
-          ))}
-        </div>
-        <div className="enterComment">
-          <input onChange={this.commentChange} type="text" />
-        </div>
-        <div className="submitCommentBtn">
-          <input type="button" onClick={this.onSubmit} value="Submit Comment" />
+            <div className="submitCommentBtn">
+              <input type="button" onClick={this.onSubmit} value="Submit Comment" />
+            </div>
+          </form>
         </div>
       </div>
     );
