@@ -4,7 +4,7 @@ import defaultImage from '../public/assets/defaultImage';
 
 import FavoriteButton from './FavoriteButton';
 
-const NewsItem = ({ article }) => (
+const NewsItem = ({ article, liked}) => (
   <div className="newsItem">
     {
       article.urlToImage ?
@@ -16,7 +16,7 @@ const NewsItem = ({ article }) => (
           <img src={defaultImage} className="defaultImg" alt="#" />
         </a>
     }
-    <FavoriteButton article={article} />
+    <FavoriteButton article={article} liked={liked}/>
     {
       article.title ?
         <a href={article.url} target="_blank">

@@ -13,7 +13,7 @@ import getSources from './middleware/getSources';
 import getPreferences from './middleware/getPreferences';
 import setPreferences from './middleware/setPreferences';
 import addFavorite from './middleware/addFavorite';
-
+import removeArticle from './middleware/removeArticle'
 
 const app = express();
 const publicPath = express.static(path.join(__dirname, '../'));
@@ -64,6 +64,14 @@ app.post('/favorites', addFavorite, (request, response) => {
     response.status(200).end('please log in before adding to favorites');
   }
 });
+
+app.post('/dislikes', removeArticle, (request, response) =>{ 
+  if (request.user) { 
+    response.status(201).end('article removed'); 
+  } else { 
+    response.status(200).end('please log in before removing articles');
+  }
+})
 
 // catch-all route for implementing React Router
 app.get('*', (request, response) => {
