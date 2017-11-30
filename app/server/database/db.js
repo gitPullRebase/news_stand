@@ -15,5 +15,4 @@ db.once('open', () => {
   console.log('connection to mongoDb open');
 });
 
-module.exports.Comment = Comment;
 export default db;
