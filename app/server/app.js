@@ -13,7 +13,9 @@ import getSources from './middleware/getSources';
 import getPreferences from './middleware/getPreferences';
 import setPreferences from './middleware/setPreferences';
 import addFavorite from './middleware/addFavorite';
-import removeArticle from './middleware/removeArticle'
+import removeArticle from './middleware/removeArticle';
+import getComments from './middleware/getComments';
+import saveComment from './middleware/saveComment';
 
 const app = express();
 const publicPath = express.static(path.join(__dirname, '../'));
@@ -64,7 +66,8 @@ app.post('/favorites', addFavorite, (request, response) => {
     response.status(200).end('please log in before adding to favorites');
   }
 });
-app.post('/dislikes', removeArticle, function (request, response) {
+
+app.post('/dislikes', removeArticle, (request, response) => {
   if (request.user) {
     response.status(201).end('article removed');
   } else {
@@ -72,10 +75,18 @@ app.post('/dislikes', removeArticle, function (request, response) {
   }
 });
 
+app.post('/comments', getComments, (request, response) => {
+  const { comments } = request;
+  response.json(comments);
+});
+
+app.post('/saveComment', saveComment, (request, response) => {
+  response.end();
+});
+
 // catch-all route for implementing React Router
 app.get('*', (request, response) => {
   response.sendFile(indexPath);
 });
-
 
 export default app;

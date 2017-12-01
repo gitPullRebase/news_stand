@@ -7,7 +7,7 @@ class CommentPage extends React.Component {
     super(props);
     this.state = {
       commentInput: 'input',
-      comments: [],
+      comments: this.props.comments,
       articleUrl: this.props.article.url,
       user: this.props.user,
     };
@@ -27,31 +27,17 @@ class CommentPage extends React.Component {
       minHeight: 300,
       margin: '0 auto',
       padding: 30,
+      zIndex: 9000,
     };
-  }
-
-  // gets all the comments from database
-  componentDidMount() {
-    axios({
-      url: '/comments',
-      method: 'post',
-      data: { article: this.state.article },
-    }).then((returnedComments) => {
-      this.setState({ comments: returnedComments });
-    });
+    this.commentChange = this.commentChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onEnterKeypress = this.onEnterKeypress.bind(this);
   }
 
   // saves all the comments to database
   onSubmit() {
-    axios({
-      method: 'post',
-      url: '/saveComment',
-      data: {
-        comment: this.state.commentInput,
-        url: this.state.articleUrl,
-        author: this.state.user,
-      },
-    }).then(() => {});
+    const { commentInput, articleUrl, user } = this.state;
+    axios.post('/saveComment', { commentInput, articleUrl, user }).then(() => {});
   }
 
   onEnterKeypress(event) {
@@ -83,7 +69,7 @@ class CommentPage extends React.Component {
               </div>
             ))}
           </div>
-          <form onSubmit={this.handleEnterKeypress}>
+          <form onSubmit={this.onEnterKeypress}>
             <div className="enterComment">
               <input onChange={this.commentChange} type="text" />
             </div>
@@ -108,15 +94,10 @@ CommentPage.propTypes = {
     author: PropTypes.string,
     url: PropTypes.string.isRequired,
   }).isRequired,
-  user: PropTypes.shape({
-    username: PropTypes.string.isRequired,
-    topics: PropTypes.arrayOf(PropTypes.string),
-    selectedSources: PropTypes.arrayOf(PropTypes.object),
-    profileImg: PropTypes.string,
-    articles: PropTypes.arrayOf(PropTypes.object).isRequired,
-  }).isRequired,
+  user: PropTypes.string.isRequired,
   show: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
+  comments: PropTypes.arrayOf(Object).isRequired,
 };
 
 export default CommentPage;

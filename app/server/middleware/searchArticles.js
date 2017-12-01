@@ -31,6 +31,8 @@ const searchArticles = (request, response, next) => {
     .get(url)
     .then((newsResponse) => {
       request.articles = newsResponse.data.articles;
+
+
     })
     .catch((err) => {
       console.log('error newsAPI: ', err);

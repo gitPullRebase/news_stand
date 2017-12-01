@@ -11,13 +11,7 @@ const NewsList = props => (
     ) : (
       props.newsArticles &&
       uniq(props.newsArticles, i => i.url).map(article => (
-        <NewsItem
-          user={props.user}
-          handleCommentBtnClick={props.handleCommentBtnClick}
-          article={article}
-          key={article.url}
-          liked={props.liked}
-        />
+        <NewsItem user={props.user} article={article} key={article.url} liked={props.liked} />
       ))
     )}
   </div>
@@ -25,14 +19,7 @@ const NewsList = props => (
 
 NewsList.propTypes = {
   newsArticles: PropTypes.arrayOf(PropTypes.object).isRequired,
-  handleCommentBtnClick: PropTypes.func.isRequired,
-  user: PropTypes.shape({
-    username: PropTypes.string.isRequired,
-    topics: PropTypes.arrayOf(PropTypes.string),
-    selectedSources: PropTypes.arrayOf(PropTypes.object),
-    profileImg: PropTypes.string,
-    articles: PropTypes.arrayOf(PropTypes.object).isRequired,
-  }).isRequired,
+  user: PropTypes.string.isRequired,
 };
 
 export default NewsList;

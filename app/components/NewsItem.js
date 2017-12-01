@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import defaultImage from '../public/assets/defaultImage';
 import FavoriteButton from './FavoriteButton';
@@ -11,10 +12,19 @@ class NewsItem extends React.Component {
       article: this.props.article,
       user: this.props.user,
       isOpen: false,
+      comments: [],
     };
     this.toggleModal = this.toggleModal.bind(this);
   }
 
+
+  // gets all the comments from database
+  componentDidMount() {
+    const { article } = this.state;
+    axios.post('/comments', article).then((returnedComments) => {
+      this.setState({ comments: returnedComments.data });
+    });
+  }
 
   toggleModal() {
     this.setState({ isOpen: !this.state.isOpen });
@@ -58,6 +68,7 @@ class NewsItem extends React.Component {
 
         <CommentPage
           show={this.state.isOpen}
+          comments={this.state.comments}
           article={this.state.article}
           user={this.state.user}
           onClose={this.toggleModal}
@@ -67,6 +78,30 @@ class NewsItem extends React.Component {
     );
   }
 }
+
+
+NewsItem.propTypes = {
+  article: PropTypes.shape({
+    urlToImage: PropTypes.string,
+    title: PropTypes.string,
+    description: PropTypes.string,
+    source: PropTypes.shape({
+      name: PropTypes.string,
+    }),
+    author: PropTypes.string,
+    url: PropTypes.string.isRequired,
+  }).isRequired,
+  user: PropTypes.shape({
+    username: PropTypes.string.isRequired,
+    topics: PropTypes.arrayOf(PropTypes.string),
+    selectedSources: PropTypes.arrayOf(PropTypes.object),
+    profileImg: PropTypes.string,
+    articles: PropTypes.arrayOf(PropTypes.object).isRequired,
+  }).isRequired,
+  liked: PropTypes.bool.isRequired,
+};
+
+export default NewsItem;
 
 // const NewsItem = ({ article, handleCommentBtnClick }) => (
 //   <div className="newsItem">
@@ -100,25 +135,3 @@ class NewsItem extends React.Component {
 //     <br />
 //   </div>
 // );
-
-NewsItem.propTypes = {
-  article: PropTypes.shape({
-    urlToImage: PropTypes.string,
-    title: PropTypes.string,
-    description: PropTypes.string,
-    source: PropTypes.shape({
-      name: PropTypes.string,
-    }),
-    author: PropTypes.string,
-    url: PropTypes.string.isRequired,
-  }).isRequired,
-  user: PropTypes.shape({
-    username: PropTypes.string.isRequired,
-    topics: PropTypes.arrayOf(PropTypes.string),
-    selectedSources: PropTypes.arrayOf(PropTypes.object),
-    profileImg: PropTypes.string,
-    articles: PropTypes.arrayOf(PropTypes.object).isRequired,
-  }).isRequired,
-};
-
-export default NewsItem;
