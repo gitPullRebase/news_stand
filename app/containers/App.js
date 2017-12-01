@@ -9,6 +9,7 @@ import Login from '../components/Login.js';
 import NotFound from '../components/NotFound.js';
 import Profile from '../components/Profile.js';
 import getPreferences from '../components/helpers/getPreferences.js';
+import CommentPage from '../components/CommentPage';
 
 import { getUser } from '../actions/appActions.js';
 
@@ -19,6 +20,7 @@ class App extends React.Component {
     this.state = {
       loggedIn: false,
       user: {},
+      article: {},
     };
   }
 
@@ -52,6 +54,7 @@ class App extends React.Component {
               (this.state.loggedIn ? <Profile user={this.state.user} /> : <Redirect to="/" />)
             }
           />
+          <Route path="/comments" component={() => <CommentPage article={this.state.article} />} />
           <Route component={NotFound} />
         </Switch>
       </Router>

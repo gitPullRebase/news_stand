@@ -3,46 +3,36 @@ import PropTypes from 'prop-types';
 import defaultImage from '../public/assets/defaultImage';
 
 import FavoriteButton from './FavoriteButton';
-import Comment from './CommentButton';
+import CommentButton from './CommentButton';
 
-const NewsItem = ({ article, liked}) => (
+const NewsItem = ({ article, liked }) => (
   <div className="newsItem">
-    {
-      article.urlToImage ?
-        <a href={article.url} target="_blank">
-          <img src={article.urlToImage} className="articleImg" alt="#" />
-        </a>
-        :
-        <a href={article.url} target="_blank">
-          <img src={defaultImage} className="defaultImg" alt="#" />
-        </a>
-    }
-    <FavoriteButton article={article} liked={liked}/>
-    {
-      article.title ?
-        <a href={article.url} target="_blank">
-          <h3 className="articleTitle"> {article.title} </h3>
-        </a>
-        :
-        null
-    }
+    {article.urlToImage ? (
+      <a href={article.url} target="_blank">
+        <img src={article.urlToImage} className="articleImg" alt="#" />
+      </a>
+    ) : (
+      <a href={article.url} target="_blank">
+        <img src={defaultImage} className="defaultImg" alt="#" />
+      </a>
+    )}
+    <FavoriteButton article={article} liked={liked} />
+    {article.title ? (
+      <a href={article.url} target="_blank">
+        <h3 className="articleTitle"> {article.title} </h3>
+      </a>
+    ) : null}
 
-    {
-      article.description ?
-        <p className="articleDescription">{article.description}</p> :
-        null
-    }
+    {article.description ? <p className="articleDescription">{article.description}</p> : null}
 
-    {
-      article.source.name ?
-        <div className="articleSource">{article.source.name} {article.author ?
-          <p className="articleAuthor">| {article.author}</p> :
-        null}
-        </div> :
-        null
-    }
+    {article.source.name ? (
+      <div className="articleSource">
+        {article.source.name}{' '}
+        {article.author ? <p className="articleAuthor">| {article.author}</p> : null}
+      </div>
+    ) : null}
 
-    <Comment />
+    <CommentButton article={article} />
 
     <br />
   </div>
@@ -60,6 +50,5 @@ NewsItem.propTypes = {
     url: PropTypes.string.isRequired,
   }).isRequired,
 };
-
 
 export default NewsItem;

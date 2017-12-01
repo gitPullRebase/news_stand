@@ -160,7 +160,7 @@ class Home extends React.Component {
           </div>
 
           <div className="articlesContainer">
-            <NewsList newsArticles={this.state.articles} />
+            <NewsList handleCommentBtnClick={this.props.handleCommentBtnClick} newsArticles={this.state.articles} />
           </div>
         </div>
       </div>
@@ -171,6 +171,7 @@ class Home extends React.Component {
 Home.propTypes = {
   search: PropsTypes.func.isRequired,
   getPreferences: PropsTypes.func.isRequired,
+  handleCommentBtnClick: PropsTypes.func.isRequired,
 };
 
 export default Home;

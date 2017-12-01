@@ -1,12 +1,33 @@
 import React from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
-import CommentPage from './CommentPage';
 
-const Comment = () => (
-  <div className="commentButton">
-    <input type="button" value="Post A comment" />
-  </div>
-);
+class CommentButton extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      article: this.props.article,
+    };
+  }
 
-export default Comment;
+  onClickHandler() {
+    props.handleCommentBtnClick(this.state.article);
+  }
+
+  render() {
+    return (
+      <Link to="/comments">
+        <a href="#">
+          <div className="commentButton">
+            <input onClick={this.onClickHandler} type="button" value="Post A comment" />
+          </div>
+        </a>
+      </Link>
+    );
+  }
+}
+
+CommentButton.propTypes = {
+  handleCommentBtnClick: PropTypes.func.isRequired,
+};
+
+export default CommentButton;
