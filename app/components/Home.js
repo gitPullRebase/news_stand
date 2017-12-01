@@ -15,10 +15,12 @@ class Home extends React.Component {
     this.state = {
       sortBy: 'publishedAt',
       articles: [],
-      selectedSources: [{
-        label: 'TechCrunch',
-        id: 'techcrunch',
-      }],
+      selectedSources: [
+        {
+          label: 'TechCrunch',
+          id: 'techcrunch',
+        },
+      ],
       topics: ['net neutrality'],
     };
 
@@ -33,7 +35,9 @@ class Home extends React.Component {
   componentDidMount() {
     const { topics, selectedSources, sortBy } = this.state;
     const options = {
-      topics, selectedSources, sortBy,
+      topics,
+      selectedSources,
+      sortBy,
     };
     this.props.getPreferences(options, (articlesAndPreferences) => {
       if (articlesAndPreferences.data.preferences) {
@@ -50,19 +54,26 @@ class Home extends React.Component {
   onRefreshClick() {
     const { topics, selectedSources, sortBy } = this.state;
     const options = {
-      topics, selectedSources, sortBy,
+      topics,
+      selectedSources,
+      sortBy,
     };
     this.getArticles(options);
   }
 
   onToggleClick() {
-    this.setState({ sortBy: this.state.sortBy === 'popularity' ? 'publishedAt' : 'popularity' }, () => {
-      const { topics, selectedSources, sortBy } = this.state;
-      const options = {
-        topics, selectedSources, sortBy,
-      };
-      this.getArticles(options);
-    });
+    this.setState(
+      { sortBy: this.state.sortBy === 'popularity' ? 'publishedAt' : 'popularity' },
+      () => {
+        const { topics, selectedSources, sortBy } = this.state;
+        const options = {
+          topics,
+          selectedSources,
+          sortBy,
+        };
+        this.getArticles(options);
+      },
+    );
   }
 
   onAddSource(source) {
@@ -91,7 +102,9 @@ class Home extends React.Component {
     }
 
     const options = {
-      topics, selectedSources, sortBy,
+      topics,
+      selectedSources,
+      sortBy,
     };
 
     this.getArticles(options);
@@ -103,7 +116,9 @@ class Home extends React.Component {
     this.setState({ topics });
 
     const options = {
-      topics, selectedSources, sortBy,
+      topics,
+      selectedSources,
+      sortBy,
     };
     this.getArticles(options);
   }
@@ -111,7 +126,8 @@ class Home extends React.Component {
   setPreferences() {
     const { topics, selectedSources } = this.state;
 
-    axios.post('/preferences', { topics, selectedSources })
+    axios
+      .post('/preferences', { topics, selectedSources })
       .then((message) => {
         console.log(message);
       })
@@ -138,11 +154,7 @@ class Home extends React.Component {
         </div>
         <div className="contentContainer">
           <div className="topicsAndSourcesContainer">
-            <button
-              id="savePreferences"
-              className="btn btn-primary"
-              onClick={this.setPreferences}
-            >
+            <button id="savePreferences" className="btn btn-primary" onClick={this.setPreferences}>
               Save Preferences
             </button>
             <Topics
@@ -160,7 +172,7 @@ class Home extends React.Component {
           </div>
 
           <div className="articlesContainer">
-            <NewsList handleCommentBtnClick={this.props.handleCommentBtnClick} newsArticles={this.state.articles} />
+            <NewsList user={this.props.user} newsArticles={this.state.articles} />
           </div>
         </div>
       </div>
@@ -171,7 +183,13 @@ class Home extends React.Component {
 Home.propTypes = {
   search: PropsTypes.func.isRequired,
   getPreferences: PropsTypes.func.isRequired,
-  handleCommentBtnClick: PropsTypes.func.isRequired,
+  user: PropsTypes.shape({
+    username: PropsTypes.string.isRequired,
+    topics: PropsTypes.arrayOf(PropsTypes.string),
+    selectedSources: PropsTypes.arrayOf(PropsTypes.object),
+    profileImg: PropsTypes.string,
+    articles: PropsTypes.arrayOf(PropsTypes.object).isRequired,
+  }).isRequired,
 };
 
 export default Home;
