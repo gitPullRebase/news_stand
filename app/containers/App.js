@@ -4,7 +4,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 
 import search from '../components/helpers/search.js';
-import Home from '../components/Home.js';
+import Home from './Home.js';
 import Login from '../components/Login.js';
 import NotFound from '../components/NotFound.js';
 import Profile from '../components/Profile.js';
@@ -15,21 +15,13 @@ import { getUser } from '../actions/appActions.js';
 class App extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      loggedIn: false,
-      user: {},
-    };
   }
 
   componentDidMount() {
     axios
       .get('/auth')
       .then((authStatus) => {
-        this.setState({
-          loggedIn: authStatus.data.loggedIn,
-          user: authStatus.data.user,
-        });
+        this.props.getUser(authStatus.data.loggedIn, authStatus.data.user);
       })
       .catch((err) => {
         throw err;
@@ -49,7 +41,7 @@ class App extends React.Component {
           <Route
             path="/profile"
             render={() =>
-              (this.state.loggedIn ? <Profile user={this.state.user} /> : <Redirect to="/" />)
+              (this.props.loggedIn ? <Profile user={this.props.user} /> : <Redirect to="/" />)
             }
           />
           <Route component={NotFound} />
@@ -60,8 +52,8 @@ class App extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  loggedIn: state.loggedIn,
-  user: state.user,
+  loggedIn: state.loggedIn.loggedIn,
+  user: state.loggedIn.user,
 });
 
 const mapDispatchToProps = dispatch => ({
