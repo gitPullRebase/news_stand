@@ -112,8 +112,6 @@ NewsItem.propTypes = {
     author: PropTypes.string,
     url: PropTypes.string.isRequired,
   }).isRequired,
-<<<<<<< HEAD
-=======
   user: PropTypes.shape({
     username: PropTypes.string.isRequired,
     topics: PropTypes.arrayOf(PropTypes.string),
@@ -121,7 +119,6 @@ NewsItem.propTypes = {
     profileImg: PropTypes.string,
     articles: PropTypes.arrayOf(PropTypes.object).isRequired,
   }).isRequired,
->>>>>>> continuing comments page
 };
 
 export default NewsItem;
