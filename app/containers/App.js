@@ -3,18 +3,25 @@ import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 
-import search from '../components/helpers/search.js';
-import Home from './Home.js';
-import Login from '../components/Login.js';
-import NotFound from '../components/NotFound.js';
-import Profile from '../components/Profile.js';
-import getPreferences from '../components/helpers/getPreferences.js';
+import search from '../components/helpers/search';
+import Home from '../components/Home';
+import Login from '../components/Login';
+import NotFound from '../components/NotFound';
+import Profile from '../components/Profile';
+import getPreferences from '../components/helpers/getPreferences';
+import CommentPage from '../components/CommentPage';
 
-import { getUser } from '../actions/appActions.js';
+import { getUser } from '../actions/appActions';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      loggedIn: false,
+      user: {},
+      article: {},
+    };
   }
 
   componentDidMount() {
@@ -44,6 +51,7 @@ class App extends React.Component {
               (this.props.loggedIn ? <Profile user={this.props.user} /> : <Redirect to="/" />)
             }
           />
+          <Route path="/comments" component={() => <CommentPage article={this.state.article} />} />
           <Route component={NotFound} />
         </Switch>
       </Router>

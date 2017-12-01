@@ -3,16 +3,25 @@ import PropTypes from 'prop-types';
 import IconButton from 'material-ui/IconButton';
 import Heart from 'mui-icons/cmdi/heart';
 import axios from 'axios';
+
 import { connect } from 'react-redux';
 
 import { addFavorite } from '../actions/favoriteActions.js';
+import Dislike from 'material-ui-icons/HighlightOff';
+import { confirmAlert } from 'react-confirm-alert';
+import { Link } from 'react-router-dom';
 
 class FavoriteButton extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      favorited: false,
+      disliked: false,
+      confirm: false,
+    };
     this.onAddFavorite = this.onAddFavorite.bind(this);
+    this.onDislike = this.onDislike.bind(this);
   }
-
   onAddFavorite(article) {
     axios
       .post('/favorites', article)
@@ -27,13 +36,51 @@ class FavoriteButton extends React.Component {
         console.log(err);
       });
   }
-
+  onConfirm(article) {
+    confirmAlert({
+      title: 'Confirm to submit', // Title dialog
+      message: 'Are you sure to remove this article?', // Message dialog
+      // childrenElement: () => <div>Custom UI</div>,       // Custom UI or Component
+      confirmLabel: 'Confirm', // Text button confirm
+      cancelLabel: 'Cancel', // Text button cancel
+      onConfirm: () => this.onDislike(article), // Action after Confirm
+      // onCancel: () => alert('Action after Cancel'),      // Action after Cancel
+    });
+  }
+  onDislike(article) {
+    this.setState({ confirm: true });
+    axios
+      .post('/dislikes', article)
+      .then((response) => {
+        console.log('response--->', response);
+        if (response.data === 'article removed') {
+          console.log('disliked!');
+          this.setState({
+            disliked: true,
+          });
+        }
+        console.log('state: ', this.state.disliked);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
   render() {
     return (
       <div>
         <IconButton className="favbtn" onClick={() => this.props.addFavorite(this.props.article)}>
           <Heart className={this.props.favorited ? 'favorited' : 'favorite'} />
         </IconButton>
+        {this.props.liked ? (
+          <IconButton
+            className="disbtn"
+            onClick={() => {
+              this.onConfirm(this.props.article);
+            }}
+          >
+            <Dislike className={this.state.disliked ? 'disliked' : 'dislike'} />
+          </IconButton>
+        ) : null}
       </div>
     );
   }
@@ -62,4 +109,5 @@ FavoriteButton.propTypes = {
     author: PropTypes.string,
     url: PropTypes.string.isRequired,
   }).isRequired,
+  liked: PropTypes.bool.isRequired,
 };

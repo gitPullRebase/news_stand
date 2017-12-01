@@ -74,7 +74,7 @@ class Profile extends React.Component {
             {/* turnary operator to show if now articles are liked */}
             {this.state.articles.length === 0 ?
               <p>Articles you like will be shown here</p> :
-              <NewsList newsArticles={this.props.user.articles} />
+              <NewsList newsArticles={this.props.user.articles} liked={true} />
             }
           </div>
         </div>
