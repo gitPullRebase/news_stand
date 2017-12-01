@@ -7,7 +7,7 @@ import search from '../components/helpers/search';
 import Home from '../components/Home';
 import Login from '../components/Login';
 import NotFound from '../components/NotFound';
-import Profile from '../components/Profile;
+import Profile from '../components/Profile';
 import getPreferences from '../components/helpers/getPreferences';
 import CommentPage from '../components/CommentPage';
 
