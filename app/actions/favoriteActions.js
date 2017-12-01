@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 export function addFavorite(article) {
-  console.log('yo');
   return (dispatch) => {
     axios
       .post('/favorites', article)
