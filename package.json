@@ -1,7 +1,8 @@
 {
   "name": "news_stand",
   "version": "1.0.0",
-  "description": "> The goal of News Stand is to provide users a clean, all-in-one place to find, consume, and comment on the news. News sites are fragmented and RSS feeds don’t allow users to comment, so we want to combine the two.",
+  "description":
+    "> The goal of News Stand is to provide users a clean, all-in-one place to find, consume, and comment on the news. News sites are fragmented and RSS feeds don’t allow users to comment, so we want to combine the two.",
   "author": "",
   "license": "",
   "engines": {
@@ -14,7 +15,8 @@
     "build:watch:client": "webpack --config ./webpack.config.js/ --watch",
     "build:prod": "npm run build:server && npm run build:client",
     "start": "npm run build:prod && NODE_ENV=production node ./build/server/index.js",
-    "start:dev": "parallelshell 'npm run build:watch:server' 'npm run build:watch:client' 'nodemon ./build/server/index.js'",
+    "start:dev":
+      "parallelshell 'npm run build:watch:server' 'npm run build:watch:client' 'nodemon ./build/server/index.js'",
     "start:dev:client": "webpack-dev-server",
     "test": "./node_modules/.bin/jasmine-node test/server"
   },
@@ -49,6 +51,7 @@
     "react-confirm-alert": "^1.0.8",
     "react-dom": "^16.1.1",
     "react-redux": "^5.0.6",
+    "react-modal": "^3.1.6",
     "react-router-dom": "^4.2.2",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
