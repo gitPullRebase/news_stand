@@ -34,12 +34,12 @@ class FavoriteButton extends React.Component {
   onConfirm(article){ 
     confirmAlert({
       title: 'Confirm to submit',                        // Title dialog
-      message: 'Are you sure to do this.',               // Message dialog
-      childrenElement: () => <div>Custom UI</div>,       // Custom UI or Component
+      message: 'Are you sure to remove this article?',               // Message dialog
+      // childrenElement: () => <div>Custom UI</div>,       // Custom UI or Component
       confirmLabel: 'Confirm',                           // Text button confirm
       cancelLabel: 'Cancel',                             // Text button cancel
       onConfirm: () => this.onDislike(article),    // Action after Confirm
-      onCancel: () => alert('Action after Cancel'),      // Action after Cancel
+      // onCancel: () => alert('Action after Cancel'),      // Action after Cancel
     })
   }
   onDislike(article){ 
