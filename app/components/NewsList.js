@@ -16,6 +16,7 @@ const NewsList = props => (
           handleCommentBtnClick={props.handleCommentBtnClick}
           article={article}
           key={article.url}
+          liked={props.liked}
         />
       ))
     )}

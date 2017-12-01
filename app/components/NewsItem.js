@@ -32,7 +32,7 @@ class NewsItem extends React.Component {
             <img src={defaultImage} className="defaultImg" alt="#" />
           </a>
         )}
-        <FavoriteButton article={this.state.article} />
+        <FavoriteButton liked={this.props.liked} article={this.state.article} />
         {this.state.article.title ? (
           <a href={this.state.article.url} target="_blank">
             <h3 className="articleTitle"> {this.state.article.title} </h3>
