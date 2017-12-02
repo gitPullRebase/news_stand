@@ -7,7 +7,17 @@ const appReducer = (
 ) => {
   switch (action.type) {
     case 'GET':
+      state = {
+        ...state,
+        user: action.payload.user,
+        loggedIn: action.payload.loggedIn,
+      };
       break;
+    case 'NEW_FAVORITES':
+      state = {
+        ...state,
+        user: action.payload,
+      };
   }
   return state;
 };

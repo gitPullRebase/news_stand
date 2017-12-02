@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import defaultImage from '../public/assets/defaultImage';
-import FavoriteButton from './FavoriteButton';
+import FavoriteButton from '../containers/FavoriteButton';
 import CommentPage from './CommentPage';
 
 class NewsItem extends React.Component {
@@ -61,10 +61,9 @@ class NewsItem extends React.Component {
           </div>
         ) : null}
 
-        
         <a href="#">
           <div className="commentBtn">
-            <text onClick={this.toggleModal}>{this.state.comments.length}    Comments</text>
+            <text onClick={this.toggleModal}>{this.state.comments.length} Comments</text>
           </div>
         </a>
 
@@ -97,4 +96,3 @@ NewsItem.propTypes = {
 };
 
 export default NewsItem;
-
