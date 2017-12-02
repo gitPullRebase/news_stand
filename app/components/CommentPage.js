@@ -90,7 +90,7 @@ class CommentPage extends React.Component {
             {this.state.comments.map(comment => (
               <div className="comment">
                 <div className="comment-author">
-                  <strong>Comment by {this.state.user}</strong>
+                  <strong>Comment by {comment.author}</strong>
                   <text> {moment(comment.time).fromNow()}</text>
                 </div>
                 <div className="comment-text">{comment.comment}</div>
