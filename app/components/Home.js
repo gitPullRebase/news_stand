@@ -22,6 +22,7 @@ class Home extends React.Component {
         },
       ],
       topics: ['net neutrality'],
+      user: this.props.user.username,
     };
 
     this.onRefreshClick = this.onRefreshClick.bind(this);
@@ -45,6 +46,7 @@ class Home extends React.Component {
         this.setState({
           topics: articlesAndPreferences.data.preferences.topics,
           selectedSources: articlesAndPreferences.data.preferences.selectedSources,
+          user: this.props.user.username,
         });
       }
       this.setState({ articles: articlesAndPreferences.data.articles });
@@ -172,7 +174,7 @@ class Home extends React.Component {
           </div>
 
           <div className="articlesContainer">
-            <NewsList user={this.props.user} newsArticles={this.state.articles} />
+            <NewsList user={this.state.user} newsArticles={this.state.articles} />
           </div>
         </div>
       </div>
@@ -184,7 +186,7 @@ Home.propTypes = {
   search: PropsTypes.func.isRequired,
   getPreferences: PropsTypes.func.isRequired,
   user: PropsTypes.shape({
-    username: PropsTypes.string.isRequired,
+    username: PropsTypes.string,
     topics: PropsTypes.arrayOf(PropsTypes.string),
     selectedSources: PropsTypes.arrayOf(PropsTypes.object),
     profileImg: PropsTypes.string,

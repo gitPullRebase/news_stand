@@ -48,14 +48,12 @@ class FavoriteButton extends React.Component {
     axios
       .post('/dislikes', article)
       .then((response) => {
-        console.log('response--->', response);
         if (response.data === 'article removed') {
           console.log('disliked!');
           this.setState({
             disliked: true,
           });
         }
-        console.log('state: ', this.state.disliked);
       })
       .catch((err) => {
         console.log(err);
@@ -95,5 +93,5 @@ FavoriteButton.propTypes = {
     author: PropTypes.string,
     url: PropTypes.string.isRequired,
   }).isRequired,
-  liked: PropTypes.bool.isRequired,
+  liked: PropTypes.bool,
 };
