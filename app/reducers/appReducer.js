@@ -13,6 +13,11 @@ const appReducer = (
         loggedIn: action.payload.loggedIn,
       };
       break;
+    case 'NEW_FAVORITES':
+      state = {
+        ...state,
+        user: action.payload,
+      };
   }
   return state;
 };

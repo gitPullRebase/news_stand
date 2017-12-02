@@ -7,6 +7,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 
 import { addFavorite } from '../actions/favoriteActions.js';
+import { updateFavorites } from '../actions/appActions.js';
 import Dislike from 'material-ui-icons/HighlightOff';
 import { confirmAlert } from 'react-confirm-alert';
 import { Link } from 'react-router-dom';
@@ -52,14 +53,13 @@ class FavoriteButton extends React.Component {
     axios
       .post('/dislikes', article)
       .then((response) => {
-        console.log('response--->', response);
         if (response.data === 'article removed') {
           console.log('disliked!');
           this.setState({
             disliked: true,
           });
+          this.props.updateFavorites();
         }
-        console.log('state: ', this.state.disliked);
       })
       .catch((err) => {
         console.log(err);
@@ -94,6 +94,9 @@ const mapDispatchToProps = dispatch => ({
   addFavorite: (article) => {
     dispatch(addFavorite(article));
   },
+  updateFavorites: () => {
+    dispatch(updateFavorites());
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FavoriteButton);
@@ -109,5 +112,5 @@ FavoriteButton.propTypes = {
     author: PropTypes.string,
     url: PropTypes.string.isRequired,
   }).isRequired,
-  liked: PropTypes.bool.isRequired,
+  liked: PropTypes.bool,
 };

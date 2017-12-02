@@ -45,7 +45,6 @@ class Home extends React.Component {
           articlesAndPreferences.data.preferences.selectedSources,
         );
       }
-      console.log('we here');
       this.props.changeArticles(articlesAndPreferences.data.articles);
     });
   }

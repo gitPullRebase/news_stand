@@ -2,11 +2,12 @@ import Comment from '../database/models/comment';
 
 const saveComments = (request, response, next) => {
   // query comments table in database and pass it back down
-  console.log('request sent from comment page is ', request);
+  console.log('request when saving is ', request.body);
   const commentObj = {
-    comment: request.data.comment,
-    url: request.data.url,
-    author: request.data.author,
+    time: request.body.time,
+    comment: request.body.commentInput,
+    url: request.body.articleUrl,
+    author: request.body.user,
   };
 
   const newComment = new Comment(commentObj);

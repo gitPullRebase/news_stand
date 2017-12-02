@@ -9,7 +9,6 @@ import Login from '../components/Login';
 import NotFound from '../components/NotFound';
 import Profile from '../components/Profile';
 import getPreferences from '../components/helpers/getPreferences';
-import CommentPage from '../components/CommentPage';
 
 import { getUser } from '../actions/appActions';
 
@@ -20,7 +19,6 @@ class App extends React.Component {
     this.state = {
       loggedIn: false,
       user: {},
-      article: {},
     };
   }
 
@@ -42,7 +40,7 @@ class App extends React.Component {
           <Route
             exact
             path="/"
-            render={() => <Home search={search} getPreferences={getPreferences} />}
+            render={() => <Home search={search} user={this.state.user} getPreferences={getPreferences} />}
           />
           <Route path="/login" component={Login} />
           <Route
@@ -51,7 +49,6 @@ class App extends React.Component {
               (this.props.loggedIn ? <Profile user={this.props.user} /> : <Redirect to="/" />)
             }
           />
-          <Route path="/comments" component={() => <CommentPage article={this.state.article} />} />
           <Route component={NotFound} />
         </Switch>
       </Router>

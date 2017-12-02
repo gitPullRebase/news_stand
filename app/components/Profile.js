@@ -27,11 +27,21 @@ class Profile extends React.Component {
     this.lastName = this.state.username.split(' ')[1];
   }
 
+  getUpdatedfavorites() {
+    axios
+      .get('/auth')
+      .then((authStatus) => {
+        this.props.getUser(authStatus.data.loggedIn, authStatus.data.user);
+      })
+      .catch((err) => {
+        throw err;
+      });
+  }
+
   render() {
     return (
       <div id="profile">
         <div className="col-1-3">
-
           <div className="sidebar">
             <div className="nav">
               <nav className="nav-bar">
@@ -42,8 +52,11 @@ class Profile extends React.Component {
               <div className="user">
                 <img className="profile-pic" src={this.state.img} alt={this.state.username} />
                 <div className="user-name">
-                  <p>{this.firstName}<br />
-                  {this.lastName}</p>
+                  <p>
+                    {this.firstName}
+                    <br />
+                    {this.lastName}
+                  </p>
                 </div>
               </div>
               <div className="topics-sources">
@@ -51,17 +64,16 @@ class Profile extends React.Component {
                 <div className="profileTopicsList">
                   <h4>Saved Topics</h4>
                   {this.state.topics.map(topicString => (
-                    <p key={topicString}>
-                      {capitalizeFirstLetter(topicString)}
-                    </p>
+                    <p key={topicString}>{capitalizeFirstLetter(topicString)}</p>
                   ))}
                 </div>
 
                 {/* Selected Sources List */}
                 <div className="profileSourcesList">
                   <h4>Saved Sources</h4>
-                  {this.state.selectedSources.map(sourceObj =>
-                    <p key={sourceObj.label} >{capitalizeFirstLetter(sourceObj.label)}</p>)}
+                  {this.state.selectedSources.map(sourceObj => (
+                    <p key={sourceObj.label}>{capitalizeFirstLetter(sourceObj.label)}</p>
+                  ))}
                 </div>
               </div>
             </div>
@@ -72,10 +84,11 @@ class Profile extends React.Component {
           <div className="profileFavoriteArticles">
             <h2>Favorite Articles</h2>
             {/* turnary operator to show if now articles are liked */}
-            {this.state.articles.length === 0 ?
-              <p>Articles you like will be shown here</p> :
-              <NewsList newsArticles={this.props.user.articles} liked={true} />
-            }
+            {this.state.articles.length === 0 ? (
+              <p>Articles you like will be shown here</p>
+            ) : (
+              <NewsList newsArticles={this.props.user.articles} liked />
+            )}
           </div>
         </div>
       </div>

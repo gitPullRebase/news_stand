@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import defaultImage from '../public/assets/defaultImage';
 import FavoriteButton from '../containers/FavoriteButton';
@@ -11,8 +12,17 @@ class NewsItem extends React.Component {
       article: this.props.article,
       user: this.props.user,
       isOpen: false,
+      comments: [],
     };
     this.toggleModal = this.toggleModal.bind(this);
+  }
+
+  // gets all the comments from database
+  componentDidMount() {
+    const { article } = this.state;
+    axios.post('/comments', article).then((returnedComments) => {
+      this.setState({ comments: returnedComments.data });
+    });
   }
 
   toggleModal() {
@@ -51,12 +61,15 @@ class NewsItem extends React.Component {
           </div>
         ) : null}
 
-        <div className="commentBtn">
-          <input onClick={this.toggleModal} type="button" value="Comments" />
-        </div>
+        <a href="#">
+          <div className="commentBtn">
+            <text onClick={this.toggleModal}>{this.state.comments.length} Comments</text>
+          </div>
+        </a>
 
         <CommentPage
           show={this.state.isOpen}
+          comments={this.state.comments}
           article={this.state.article}
           user={this.state.user}
           onClose={this.toggleModal}
@@ -66,39 +79,6 @@ class NewsItem extends React.Component {
     );
   }
 }
-
-// const NewsItem = ({ article, handleCommentBtnClick }) => (
-//   <div className="newsItem">
-//     {article.urlToImage ? (
-//       <a href={article.url} target="_blank">
-//         <img src={article.urlToImage} className="articleImg" alt="#" />
-//       </a>
-//     ) : (
-//       <a href={article.url} target="_blank">
-//         <img src={defaultImage} className="defaultImg" alt="#" />
-//       </a>
-//     )}
-//     <FavoriteButton article={article} />
-//     {article.title ? (
-//       <a href={article.url} target="_blank">
-//         <h3 className="articleTitle"> {article.title} </h3>
-//       </a>
-//     ) : null}
-
-//     {article.description ? <p className="articleDescription">{article.description}</p> : null}
-
-//     {article.source.name ? (
-//       <div className="articleSource">
-//         {article.source.name}{' '}
-//         {article.author ? <p className="articleAuthor">| {article.author}</p> : null}
-//       </div>
-//     ) : null}
-
-//     <CommentButton handleCommentBtnClick={handleCommentBtnClick} article={article} />
-
-//     <br />
-//   </div>
-// );
 
 NewsItem.propTypes = {
   article: PropTypes.shape({
@@ -111,13 +91,8 @@ NewsItem.propTypes = {
     author: PropTypes.string,
     url: PropTypes.string.isRequired,
   }).isRequired,
-  user: PropTypes.shape({
-    username: PropTypes.string.isRequired,
-    topics: PropTypes.arrayOf(PropTypes.string),
-    selectedSources: PropTypes.arrayOf(PropTypes.object),
-    profileImg: PropTypes.string,
-    articles: PropTypes.arrayOf(PropTypes.object).isRequired,
-  }).isRequired,
+  user: PropTypes.string.isRequired,
+  liked: PropTypes.bool.isRequired,
 };
 
 export default NewsItem;
