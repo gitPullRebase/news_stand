@@ -93,5 +93,5 @@ FavoriteButton.propTypes = {
     author: PropTypes.string,
     url: PropTypes.string.isRequired,
   }).isRequired,
-  liked: PropTypes.bool.isRequired,
+  liked: PropTypes.bool,
 };

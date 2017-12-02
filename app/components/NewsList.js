@@ -19,7 +19,8 @@ const NewsList = props => (
 
 NewsList.propTypes = {
   newsArticles: PropTypes.arrayOf(PropTypes.object).isRequired,
-  user: PropTypes.string.isRequired,
+  user: PropTypes.string,
+  liked: PropTypes.bool.isRequired,
 };
 
 export default NewsList;
