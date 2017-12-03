@@ -2,8 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import uniq from 'node-uniq';
+import { connect } from 'react-redux';
 
 import NewsList from './NewsList';
+import { updateFavorites } from '../actions/appActions.js';
 
 const capitalizeFirstLetter = (string) => {
   const stringArr = string.split(' ');
@@ -25,6 +27,11 @@ class Profile extends React.Component {
     };
     this.firstName = this.state.username.split(' ')[0];
     this.lastName = this.state.username.split(' ')[1];
+  }
+
+  componentDidMount() {
+    console.log('aaaaayyyyyyyyy');
+    this.props.updateFavorites();
   }
 
   getUpdatedfavorites() {
@@ -96,6 +103,12 @@ class Profile extends React.Component {
   }
 }
 
+const mapDispatchToProps = dispatch => ({
+  updateFavorites: () => {
+    dispatch(updateFavorites());
+  },
+});
+
 Profile.propTypes = {
   user: PropTypes.shape({
     username: PropTypes.string.isRequired,
@@ -106,4 +119,4 @@ Profile.propTypes = {
   }).isRequired,
 };
 
-export default Profile;
+export default connect(null, mapDispatchToProps)(Profile);
