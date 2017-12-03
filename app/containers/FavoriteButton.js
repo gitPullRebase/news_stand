@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import IconButton from 'material-ui/IconButton';
 import Heart from 'mui-icons/cmdi/heart';
 import axios from 'axios';
-
 import { connect } from 'react-redux';
 
 import { addFavorite } from '../actions/favoriteActions.js';
@@ -23,19 +22,10 @@ class FavoriteButton extends React.Component {
     this.onAddFavorite = this.onAddFavorite.bind(this);
     this.onDislike = this.onDislike.bind(this);
   }
-  onAddFavorite(article) {
-    axios
-      .post('/favorites', article)
-      .then((response) => {
-        if (response.data === 'favorite added') {
-          this.setState({
-            favorited: true,
-          });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  onAddFavorite() {
+    this.setState({
+      favorited: true,
+    });
   }
   onConfirm(article) {
     confirmAlert({
@@ -68,8 +58,15 @@ class FavoriteButton extends React.Component {
   render() {
     return (
       <div>
-        <IconButton className="favbtn" onClick={() => this.props.addFavorite(this.props.article)}>
-          <Heart className={this.props.favorited ? 'favorited' : 'favorite'} />
+        <IconButton
+          className="favbtn"
+          onClick={() => {
+            this.props.updateFavorites();
+            this.props.addFavorite(this.props.article);
+            this.onAddFavorite();
+          }}
+        >
+          <Heart className={this.state.favorited ? 'favorited' : 'favorite'} />
         </IconButton>
         {this.props.liked ? (
           <IconButton

@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import uniq from 'node-uniq';
 
 import NewsItem from './NewsItem';
+import Spinner from './Spinner';
 
 const NewsList = props => (
   <div className="news-list">
     {props.newsArticles.length === 0 ? (
-      <div id="no-articles">No articles found. Please try another search</div>
+      <Spinner />
     ) : (
       props.newsArticles &&
       uniq(props.newsArticles, i => i.url).map(article => (
