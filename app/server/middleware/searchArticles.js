@@ -5,7 +5,7 @@ const searchArticles = (request, response, next) => {
 
   const { sortBy, topics, selectedSources } = request.query;
 
-  const beginDate = moment().subtract(3, 'weeks').format('YYYY-MM-DD');
+  const beginDate = moment().subtract(104, 'weeks').format('YYYY-MM-DD');
   const endDate = moment().format('YYYY-MM-DD');
   let url = `https://newsapi.org/v2/everything/?from=${beginDate}&to=${endDate}&sortBy=${sortBy}&language=en&apiKey=${process.env.NEWS_KEY}`;
 
