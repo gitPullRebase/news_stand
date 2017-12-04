@@ -33,6 +33,10 @@ class App extends React.Component {
       });
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({ user: nextProps.user });
+  }
+
   render() {
     return (
       <Router>
